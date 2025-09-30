@@ -1,0 +1,152 @@
+// Hello World in ΨLang - A simple neural pattern that spells "HELLO"
+// This demonstrates basic neuron creation, synaptic connections, and spike patterns
+
+topology ⟪hello-world⟫ with {
+    precision: double
+    learning: enabled
+    evolution: disabled
+    monitoring: enabled
+}
+
+// Create neurons for each letter pattern
+∴ H1 { threshold: -50mV, leak: 10mV/ms, position: (0, 0, 0) }
+∴ H2 { threshold: -50mV, leak: 10mV/ms, position: (1, 0, 0) }
+∴ H3 { threshold: -50mV, leak: 10mV/ms, position: (2, 0, 0) }
+∴ H4 { threshold: -50mV, leak: 10mV/ms, position: (3, 0, 0) }
+∴ H5 { threshold: -50mV, leak: 10mV/ms, position: (4, 0, 0) }
+
+∴ E1 { threshold: -50mV, leak: 10mV/ms, position: (6, 0, 0) }
+∴ E2 { threshold: -50mV, leak: 10mV/ms, position: (7, 0, 0) }
+∴ E3 { threshold: -50mV, leak: 10mV/ms, position: (8, 0, 0) }
+∴ E4 { threshold: -50mV, leak: 10mV/ms, position: (9, 0, 0) }
+∴ E5 { threshold: -50mV, leak: 10mV/ms, position: (10, 0, 0) }
+
+∴ L1 { threshold: -50mV, leak: 10mV/ms, position: (12, 0, 0) }
+∴ L2 { threshold: -50mV, leak: 10mV/ms, position: (13, 0, 0) }
+∴ L3 { threshold: -50mV, leak: 10mV/ms, position: (14, 0, 0) }
+∴ L4 { threshold: -50mV, leak: 10mV/ms, position: (15, 0, 0) }
+∴ L5 { threshold: -50mV, leak: 10mV/ms, position: (16, 0, 0) }
+
+∴ O1 { threshold: -50mV, leak: 10mV/ms, position: (18, 0, 0) }
+∴ O2 { threshold: -50mV, leak: 10mV/ms, position: (19, 0, 0) }
+∴ O3 { threshold: -50mV, leak: 10mV/ms, position: (20, 0, 0) }
+∴ O4 { threshold: -50mV, leak: 10mV/ms, position: (21, 0, 0) }
+∴ O5 { threshold: -50mV, leak: 10mV/ms, position: (22, 0, 0) }
+
+// Create input neuron to trigger the sequence
+∴ input_trigger { threshold: -50mV, leak: 10mV/ms, position: (-1, 0, 0) }
+
+// Connect input to first letter (H)
+input_trigger ⊸0.8:1ms⊸ H1
+
+// Define H pattern (vertical and horizontal lines)
+H1 ⊸0.6:1ms⊸ H2  // Vertical line top
+H2 ⊸0.6:1ms⊸ H3  // Vertical line middle
+H3 ⊸0.6:1ms⊸ H4  // Vertical line bottom
+H1 ⊸0.6:1ms⊸ H5  // Horizontal line top
+H4 ⊸0.6:1ms⊸ H5  // Horizontal line bottom
+
+// Define E pattern (horizontal lines and vertical)
+E1 ⊸0.6:1ms⊸ E2  // Top horizontal
+E2 ⊸0.6:1ms⊸ E3  // Top horizontal continued
+E3 ⊸0.6:1ms⊸ E4  // Top horizontal continued
+E1 ⊸0.6:1ms⊸ E5  // Vertical line
+E5 ⊸0.6:1ms⊸ E4  // Bottom horizontal
+
+// Connect H to E with delay
+H5 ⊸0.7:50ms⊸ E1
+
+// Define L pattern (vertical and horizontal)
+L1 ⊸0.6:1ms⊸ L2  // Vertical line top
+L2 ⊸0.6:1ms⊸ L3  // Vertical line middle
+L3 ⊸0.6:1ms⊸ L4  // Vertical line bottom
+L4 ⊸0.6:1ms⊸ L5  // Horizontal line bottom
+
+// Connect E to L with delay
+E4 ⊸0.7:50ms⊸ L1
+
+// Define O pattern (circle-like)
+O1 ⊸0.6:1ms⊸ O2  // Top curve
+O2 ⊸0.6:1ms⊸ O3  // Top curve continued
+O3 ⊸0.6:1ms⊸ O4  // Bottom curve
+O4 ⊸0.6:1ms⊸ O5  // Bottom curve continued
+O5 ⊸0.6:1ms⊸ O1  // Close the circle
+
+// Connect L to O with delay
+L5 ⊸0.7:50ms⊸ O1
+
+// Define spike pattern for "H"
+pattern ⟪letter_H⟫ {
+    ⚡ 15mV @ 0ms → H1
+    ⏱ 2ms → ⚡ 15mV @ 0ms → H2
+    ⏱ 4ms → ⚡ 15mV @ 0ms → H3
+    ⏱ 6ms → ⚡ 15mV @ 0ms → H4
+    ⏱ 8ms → ⚡ 15mV @ 0ms → H5
+}
+
+// Define spike pattern for "E"
+pattern ⟪letter_E⟫ {
+    ⚡ 15mV @ 0ms → E1
+    ⏱ 2ms → ⚡ 15mV @ 0ms → E2
+    ⏱ 4ms → ⚡ 15mV @ 0ms → E3
+    ⏱ 6ms → ⚡ 15mV @ 0ms → E4
+    ⏱ 8ms → ⚡ 15mV @ 0ms → E5
+}
+
+// Define spike pattern for "L"
+pattern ⟪letter_L⟫ {
+    ⚡ 15mV @ 0ms → L1
+    ⏱ 2ms → ⚡ 15mV @ 0ms → L2
+    ⏱ 4ms → ⚡ 15mV @ 0ms → L3
+    ⏱ 6ms → ⚡ 15mV @ 0ms → L4
+    ⏱ 8ms → ⚡ 15mV @ 0ms → L5
+}
+
+// Define spike pattern for "L" (second one)
+pattern ⟪letter_L2⟫ {
+    ⚡ 15mV @ 0ms → L1
+    ⏱ 2ms → ⚡ 15mV @ 0ms → L2
+    ⏱ 4ms → ⚡ 15mV @ 0ms → L3
+    ⏱ 6ms → ⚡ 15mV @ 0ms → L4
+    ⏱ 8ms → ⚡ 15mV @ 0ms → L5
+}
+
+// Define spike pattern for "O"
+pattern ⟪letter_O⟫ {
+    ⚡ 15mV @ 0ms → O1
+    ⏱ 2ms → ⚡ 15mV @ 0ms → O2
+    ⏱ 4ms → ⚡ 15mV @ 0ms → O3
+    ⏱ 6ms → ⚡ 15mV @ 0ms → O4
+    ⏱ 8ms → ⚡ 15mV @ 0ms → O5
+}
+
+// Learning rules for pattern stabilization
+learning: stdp with {
+    A_plus: 0.1
+    A_minus: 0.05
+    tau_plus: 20ms
+    tau_minus: 20ms
+}
+
+// Evolution strategy for pattern optimization
+evolve with {
+    genetic {
+        population_size: 10
+        mutation_rate: 0.1
+        crossover_rate: 0.7
+    }
+}
+
+// Monitoring configuration
+monitor {
+    spike_rate: histogram
+    energy_consumption: gauge
+    pattern_stability: gauge
+    learning_progress: counter
+}
+
+// Main execution - trigger the hello world sequence
+⚡ 20mV @ 0ms → input_trigger
+
+// Observe the neural activity
+observe output until silent

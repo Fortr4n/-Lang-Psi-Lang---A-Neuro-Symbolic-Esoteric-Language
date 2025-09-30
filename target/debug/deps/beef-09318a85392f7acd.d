@@ -1,0 +1,11 @@
+c:\Users\tirpi\OneDrive\Documents\GitHub\Psi-Lang---A-Neuro-Symbolic-Esoteric-Language\target\debug\deps\beef-09318a85392f7acd.d: C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\lib.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\traits.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\wide.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\generic.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\lean.rs
+
+c:\Users\tirpi\OneDrive\Documents\GitHub\Psi-Lang---A-Neuro-Symbolic-Esoteric-Language\target\debug\deps\libbeef-09318a85392f7acd.rlib: C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\lib.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\traits.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\wide.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\generic.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\lean.rs
+
+c:\Users\tirpi\OneDrive\Documents\GitHub\Psi-Lang---A-Neuro-Symbolic-Esoteric-Language\target\debug\deps\libbeef-09318a85392f7acd.rmeta: C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\lib.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\traits.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\wide.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\generic.rs C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\lean.rs
+
+C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\lib.rs:
+C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\traits.rs:
+C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\wide.rs:
+C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\generic.rs:
+C:\Users\tirpi\.cargo\registry\src\index.crates.io-1949cf8c6b5b557f\beef-0.5.2\src\lean.rs:

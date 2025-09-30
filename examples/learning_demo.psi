@@ -1,0 +1,129 @@
+// ΨLang Learning Demonstration
+// Shows how neural networks can learn to recognize patterns through STDP
+
+topology ⟪pattern_learner⟫ with {
+    precision: double
+    learning: enabled
+    evolution: enabled
+    monitoring: enabled
+}
+
+// Input layer - pattern detectors
+∴ input_A { threshold: -50mV, leak: 15mV/ms, position: (0, 0, 0) }
+∴ input_B { threshold: -50mV, leak: 15mV/ms, position: (1, 0, 0) }
+∴ input_C { threshold: -50mV, leak: 15mV/ms, position: (2, 0, 0) }
+
+// Hidden layer - feature detectors
+∴ hidden1 { threshold: -45mV, leak: 12mV/ms, position: (0, 1, 0) }
+∴ hidden2 { threshold: -45mV, leak: 12mV/ms, position: (1, 1, 0) }
+∴ hidden3 { threshold: -45mV, leak: 12mV/ms, position: (2, 1, 0) }
+∴ hidden4 { threshold: -45mV, leak: 12mV/ms, position: (3, 1, 0) }
+
+// Output layer - pattern classifiers
+∴ output_X { threshold: -40mV, leak: 10mV/ms, position: (1, 2, 0) }
+∴ output_Y { threshold: -40mV, leak: 10mV/ms, position: (2, 2, 0) }
+
+// Connect input to hidden layer with plastic synapses
+input_A ⊸0.3:1ms⊸ hidden1
+input_A ⊸0.2:2ms⊸ hidden2
+input_A ⊸0.1:3ms⊸ hidden3
+
+input_B ⊸0.4:1ms⊸ hidden2
+input_B ⊸0.3:2ms⊸ hidden3
+input_B ⊸0.2:1ms⊸ hidden4
+
+input_C ⊸0.3:2ms⊸ hidden3
+input_C ⊸0.4:1ms⊸ hidden4
+input_C ⊸0.1:3ms⊸ hidden1
+
+// Connect hidden to output layer
+hidden1 ⊸0.5:1ms⊸ output_X
+hidden2 ⊸0.6:1ms⊸ output_X
+hidden3 ⊸0.4:2ms⊸ output_X
+hidden4 ⊸0.3:1ms⊸ output_X
+
+hidden1 ⊸0.2:2ms⊸ output_Y
+hidden2 ⊸0.3:1ms⊸ output_Y
+hidden3 ⊸0.5:1ms⊸ output_Y
+hidden4 ⊸0.6:2ms⊸ output_Y
+
+// Define training patterns
+
+// Pattern X: A-B-C sequence
+pattern ⟪pattern_X⟫ {
+    ⚡ 20mV @ 0ms → input_A
+    ⏱ 10ms → ⚡ 20mV @ 0ms → input_B
+    ⏱ 20ms → ⚡ 20mV @ 0ms → input_C
+    ⏱ 50ms → observe output_X until spike
+}
+
+// Pattern Y: C-B-A sequence (reverse)
+pattern ⟪pattern_Y⟫ {
+    ⚡ 20mV @ 0ms → input_C
+    ⏱ 10ms → ⚡ 20mV @ 0ms → input_B
+    ⏱ 20ms → ⚡ 20mV @ 0ms → input_A
+    ⏱ 50ms → observe output_Y until spike
+}
+
+// Assembly for pattern recognition
+assembly ⟪pattern_recognizer⟫ {
+    neurons: hidden1, hidden2, hidden3, hidden4, output_X, output_Y
+    connections: random(density: 0.8)
+    plasticity: stdp with {
+        A_plus: 0.15
+        A_minus: 0.1
+        tau_plus: 15ms
+        tau_minus: 25ms
+    }
+}
+
+// Learning configuration
+learning: stdp with {
+    A_plus: 0.1
+    A_minus: 0.05
+    tau_plus: 20ms
+    tau_minus: 20ms
+}
+
+// Training procedure
+experiment ⟪train_patterns⟫ {
+    // Train pattern X multiple times
+    ∀ i ∈ [1..10]:
+        cultivate ⟪pattern_X⟫
+        ⏱ 100ms
+        strengthen(output_X) ↑ 0.1
+
+    // Train pattern Y multiple times
+    ∀ i ∈ [1..10]:
+        cultivate ⟪pattern_Y⟫
+        ⏱ 100ms
+        strengthen(output_Y) ↑ 0.1
+
+    // Test generalization
+    test_pattern: random_sequence(A, B, C)
+    observe outputs until stable
+}
+
+// Evolution strategy for network optimization
+evolve with {
+    genetic {
+        population_size: 5
+        mutation_rate: 0.05
+        crossover_rate: 0.8
+    }
+}
+
+// Monitoring and visualization
+monitor {
+    spike_rate: histogram
+    synaptic_weights: gauge
+    pattern_accuracy: counter
+    energy_efficiency: gauge
+    learning_progress: histogram
+}
+
+// Main execution
+⚡ 25mV @ 0ms → input_A  // Start learning process
+
+// Observe learning progress
+observe ⟪pattern_recognizer⟫ until accuracy > 0.9
